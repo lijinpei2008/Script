@@ -100,7 +100,7 @@ case ${tit} in
 
                         az acr scope-map update -n ${name}scopemap${loopCount} --add alpine${loopCount} content/delete -r ${name}
                         
-                        az acr repository delete --repository alpine${loopCount} -u ${name}token${loopCount} -p ${tokenPassword} -n ${name}
+                        az acr repository delete --repository alpine${loopCount} -u ${name}token${loopCount} -p ${tokenPassword} -n ${name} --yes
                         
                         az acr token credential generate -n ${name}token${loopCount} -r ${name}
                         docker push ${name}.azurecr.io/alpine${loopCount}
