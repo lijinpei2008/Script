@@ -126,7 +126,7 @@ esac
 echo "========================================================== Enter CTRL+C to end Or Enter other key to delete image ============================================================"
 read sthmessage
 
-#docker system prune -a #清空全部的 image 和 container 
+#docker system prune -a #Delete all image and container. 
 
 loopCount=1
 while ((${loopCount}<=${num}))
