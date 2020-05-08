@@ -78,7 +78,7 @@ echo "=================================== [sudo gpasswd -a \$USER docker] [newgr
 echo "============================================== [sudo chmod g+rwx \"/home/\$USER/.docker\" -R] [sudo chmod a+rw /var/run/docker.sock] =================================================="
 
 #Find History
-history
+#history
 
 #Clean History
-history -c
+#history -c
