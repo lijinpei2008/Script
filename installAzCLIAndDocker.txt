@@ -1,0 +1,84 @@
+#!/bin/bash
+echo "======================================================================= Please Run WSL As AdminiStrator ============================================================================"
+read whit
+
+echo "=============================================================================== sudo apt update ===================================================================================="
+sudo apt update
+
+echo "============================================================================== sudo apt  upgrade ==================================================================================="
+sudo apt upgrade
+
+echo "====================================================================== Install Azure Container Registry ============================================================================"
+echo "================================================================ Get Packages Needed For The Install Process ======================================================================="
+sudo apt update
+
+sudo apt install ca-certificates curl apt-transport-https lsb-release gnupg
+
+echo "=============================================================== Download And Install The Microsoft Signing Key ====================================================================="
+curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+
+echo "==================================================================== Add The Azure CLI Software Repository ========================================================================="
+AZ_REPO=$(lsb_release -cs)
+
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+
+echo "======================================================= Update Repository Information And Install The Azure-cli Package ============================================================"
+sudo apt update
+
+sudo apt install azure-cli
+
+echo "======================================================================== Test Azure Contianer Registry ============================================================================="
+az login
+
+echo "=============================================================================== Install Docker ====================================================================================="
+echo "============================================================================ Uninstall Old Versions ================================================================================"
+sudo apt remove docker docker-engine docker.io containerd runc
+
+echo "========================================================================= Update The Apt Package Index ============================================================================="
+sudo apt update
+
+echo "=========================================================== Install Packages To Allow Apt To Use A Repository Over HTTPS ==========================================================="
+sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+echo "========================================================================= Add Docker’s Official GPG Key ============================================================================"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+echo "============================================================== Verify That You Now Have The Key With The Fingerprint ==============================================================="
+sudo apt-key fingerprint 0EBFCD88
+
+echo "==================================================================== To Add The Nightly Or Test Repository ========================================================================="
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+echo "==================================================== Install The Latest Version Of Docker Engine-Community And Containerd =========================================================="
+sudo apt update
+
+sudo apt install docker-ce docker-ce-cli containerd.io
+
+echo "============================================================================ Start Docker Service =================================================================================="
+#echo "export DOCKER_HOST='tcp://0.0.0.0:2375'" >> ~/.bashrc
+
+sudo service docker status
+
+sudo service docker start
+
+sudo service docker status
+
+echo "============================================================================= Installation Java SDK ================================================================================"
+sudo apt update
+
+sudo apt install openjdk-8-jdk
+
+echo "============================================================================= Check Java SDK Version ==============================================================================="
+java -version
+
+echo "========================================================================= The Installation Is Complete ============================================================================="
+echo "=========================================================================== If Docker Is Not Running ==============================================================================="
+echo "=========================================================== Restart Docker Desktop And Restart WSL As AdminiStrator ================================================================"
+echo "=================================== [sudo gpasswd -a \$USER docker] [newgrp docker] [sudo chown \"\$USER\":\"\$USER\" /home/\"\$USER\"/.docker -R] ==========================================="
+echo "============================================== [sudo chmod g+rwx \"/home/\$USER/.docker\" -R] [sudo chmod a+rw /var/run/docker.sock] =================================================="
+
+#Find History
+#history
+
+#Clean History
+#history -c
