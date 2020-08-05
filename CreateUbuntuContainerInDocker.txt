@@ -1,0 +1,32 @@
+#Find Ubuntu image
+docker search ubuntu
+
+#Install Ubuntu image
+docker pull ubuntu
+
+#Select image
+docker images
+
+#Create Ubuntu container and port mapping
+docker run -it -d --name ubuntu_test -p 8088:80 ubuntu
+
+#Select container
+docker ps
+
+#Select image
+docker images
+
+#Enter docker container
+docker exec -it f8d688f9918f /bin/bash
+
+#Exit command
+exit
+
+#Stop container
+docker stop id
+
+#Create docker image
+docker commit f8d688f9918f ubuntu_test1:1.0
+
+#Save docker image
+docker save -o ubuntu_test1.tar ubuntu_test1:1.0
