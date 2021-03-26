@@ -38,7 +38,12 @@ case ${tit} in
                 read _input
                 if [ ${_input} == "Y" -o ${_input} == "y" ]
                 then
-                        docker push ${name}.azurecr.io/newimagename
+                        loopCount=1
+                        while ((${loopCount}<=${num}))
+                        do
+                                docker push ${name}.azurecr.io/newimagename:version${loopCount}
+                                let "loopCount++"
+                        done
                 fi
         ;;
 
@@ -124,9 +129,8 @@ case ${tit} in
 esac
 
 echo "========================================================== Enter CTRL+C to end Or Enter other key to delete image ============================================================"
+echo "docker system prune -a #Delete all image and container. "
 read sthmessage
-
-#docker system prune -a #Delete all image and container. 
 
 loopCount=1
 while ((${loopCount}<=${num}))
