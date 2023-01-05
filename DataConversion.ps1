@@ -32,7 +32,7 @@ try {
     # Have Excel Lines number
     $itemLin = $Sheet.UsedRange.Rows.Count
     # Have Excel Column number
-    # $itemClo = $Sheet.UsedRange.Columns.Count
+    # $itemCol = $Sheet.UsedRange.Columns.Count
     
     for ($index = 2; $index -le $itemLin; $index++) {
         # Need use Col of 3C,5E,7G
