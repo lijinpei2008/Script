@@ -18,6 +18,8 @@ try {
         $OutPath = $Path
     }
 
+    Get-Date
+
     # Open Excel App
     $Excel = New-Object -ComObject Excel.Application
     $Excel.Visible = $false
@@ -33,53 +35,61 @@ try {
     $itemLin = $Sheet.UsedRange.Rows.Count
     # Have Excel Column number
     # $itemCol = $Sheet.UsedRange.Columns.Count
-    
+
+    Write-Host -ForegroundColor Green "The file has $itemLin elements"
+
     for ($index = 2; $index -le $itemLin; $index++) {
-        # Need use Col of 3C,5E,7G
-        $dataC = $Sheet.Cells.Item($index, 3).Text
-        $dataE = $Sheet.Cells.Item($index, 5).Text
-        $dataG = $Sheet.Cells.Item($index, 7).Text
+        # Need use Col of 2B, 4D, 6F
+        $dataB = $Sheet.Cells.Item($index, 2).Text
+        $dataD = $Sheet.Cells.Item($index, 4).Text
+        $dataF = $Sheet.Cells.Item($index, 6).Text
 
-        $absoluteValue1 = [Math]::Abs($dataC - $dataE)
-        $absoluteValue2 = [Math]::Abs($dataC - $dataG)
-        $absoluteValue3 = [Math]::Abs($dataE - $dataG)
-
-        if ($absoluteValue1 -le $absoluteValue2 -and $absoluteValue1 -le $absoluteValue3) {
-            $dataG = (@($dataC, $dataE) | Measure-Object -Average).Average
-        }
-        elseif ($absoluteValue2 -le $absoluteValue1 -and $absoluteValue2 -le $absoluteValue3) {
-            $dataE = (@($dataC, $dataG) | Measure-Object -Average).Average
-        }
-        elseif ($absoluteValue3 -le $absoluteValue1 -and $absoluteValue3 -le $absoluteValue2) {
-            $dataC = (@($dataE, $dataG) | Measure-Object -Average).Average
-        }
-     
-        $Sheet.Cells.Item($index, 3) = $dataC
-        $Sheet.Cells.Item($index, 5) = $dataE
-        $Sheet.Cells.Item($index, 7) = $dataG
-
-        # Need use Col of 9I,11K,13M
-        $dataI = $Sheet.Cells.Item($index, 9).Text
-        $dataK = $Sheet.Cells.Item($index, 11).Text
-        $dataM = $Sheet.Cells.Item($index, 13).Text
-
-        $absoluteValue1 = [Math]::Abs($dataI - $dataK)
-        $absoluteValue2 = [Math]::Abs($dataI - $dataM)
-        $absoluteValue3 = [Math]::Abs($dataK - $dataM)
+        $absoluteValue1 = [Math]::Abs($dataB - $dataD)
+        $absoluteValue2 = [Math]::Abs($dataB - $dataF)
+        $absoluteValue3 = [Math]::Abs($dataD - $dataF)
 
         if ($absoluteValue1 -le $absoluteValue2 -and $absoluteValue1 -le $absoluteValue3) {
-            $dataM = (@($dataI, $dataK) | Measure-Object -Average).Average
+            $dataF = (@($dataB, $dataD) | Measure-Object -Average).Average
+            $dataF = [Math]::Ceiling($dataF)
         }
         elseif ($absoluteValue2 -le $absoluteValue1 -and $absoluteValue2 -le $absoluteValue3) {
-            $dataK = (@($dataI, $dataM) | Measure-Object -Average).Average
+            $dataD = (@($dataB, $dataF) | Measure-Object -Average).Average
+            $dataD = [Math]::Ceiling($dataD)
         }
         elseif ($absoluteValue3 -le $absoluteValue1 -and $absoluteValue3 -le $absoluteValue2) {
-            $dataI = (@($dataK, $dataM) | Measure-Object -Average).Average
+            $dataB = (@($dataD, $dataF) | Measure-Object -Average).Average
+            $dataB = [Math]::Ceiling($dataB)
         }
      
-        $Sheet.Cells.Item($index, 9) = $dataI
-        $Sheet.Cells.Item($index, 11) = $dataK
-        $Sheet.Cells.Item($index, 13) = $dataM
+        $Sheet.Cells.Item($index, 2) = $dataB
+        $Sheet.Cells.Item($index, 4) = $dataD
+        $Sheet.Cells.Item($index, 6) = $dataF
+
+        # Need use Col of 8H, 10J, 12L
+        $dataH = $Sheet.Cells.Item($index, 8).Text
+        $dataJ = $Sheet.Cells.Item($index, 10).Text
+        $dataL = $Sheet.Cells.Item($index, 12).Text
+
+        $absoluteValue1 = [Math]::Abs($dataH - $dataJ)
+        $absoluteValue2 = [Math]::Abs($dataH - $dataL)
+        $absoluteValue3 = [Math]::Abs($dataJ - $dataL)
+
+        if ($absoluteValue1 -le $absoluteValue2 -and $absoluteValue1 -le $absoluteValue3) {
+            $dataL = (@($dataH, $dataJ) | Measure-Object -Average).Average
+            $dataL = [Math]::Ceiling($dataL)
+        }
+        elseif ($absoluteValue2 -le $absoluteValue1 -and $absoluteValue2 -le $absoluteValue3) {
+            $dataJ = (@($dataH, $dataL) | Measure-Object -Average).Average
+            $dataJ = [Math]::Ceiling($dataJ)
+        }
+        elseif ($absoluteValue3 -le $absoluteValue1 -and $absoluteValue3 -le $absoluteValue2) {
+            $dataH = (@($dataJ, $dataL) | Measure-Object -Average).Average
+            $dataH = [Math]::Ceiling($dataH)
+        }
+     
+        $Sheet.Cells.Item($index, 8) = $dataH
+        $Sheet.Cells.Item($index, 10) = $dataJ
+        $Sheet.Cells.Item($index, 12) = $dataL
     }
 
     # Out file path
@@ -89,6 +99,7 @@ try {
     $Excel.Quit()
 
     Write-Host -ForegroundColor Green "Genereated $conversionFile completed in $outFilePath path."
+    Get-Date
     return
 }
 catch {
