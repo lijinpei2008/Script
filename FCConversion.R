@@ -39,7 +39,7 @@ write.table(
     na = "")
 
 # abs(
-res_sig <- res
+res_sig <- res[which(res$pvalue < 0.05 & (res$log2FoldChange > 2)), ]
 res_sig[which(res_sig$log2FoldChange > 0), "up_down"] <- "up"
 res_sig[which(res_sig$log2FoldChange < 0), "up_down"] <- "down"
 
